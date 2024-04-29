@@ -4,11 +4,11 @@
   <h2>Asset Store Price Tracker</h3>
   <p>A chrome extension that lets you view pricing history for asset pricing on both Unity's and Unreal's webstores</p>
   <div>
-    <a href="https://github.com/DespairServices/unity-asset-price-tracker/issues"><img alt="Report Bug" src="https://img.shields.io/badge/Report%20Bug-red"></a>
-    <a href="https://github.com/DespairServices/unity-asset-price-tracker/issues"><img alt="Request Feature" src="https://img.shields.io/badge/Request%20Feature-green"></a>
+    <a href="https://github.com/DespairServices/asset-store-price-tracker/issues"><img alt="Report Bug" src="https://img.shields.io/badge/Report%20Bug-red"></a>
+    <a href="https://github.com/DespairServices/asset-store-price-tracker/issues"><img alt="Request Feature" src="https://img.shields.io/badge/Request%20Feature-green"></a>
   </div>
-  <a href="https://github.com/DespairServices/unity-asset-price-tracker?tab=GPL-2.0-1-ov-file">
-    <img alt="License" src="https://img.shields.io/github/license/DespairServices/unity-asset-price-tracker">
+  <a href="https://github.com/DespairServices/asset-store-price-tracker?tab=GPL-2.0-1-ov-file">
+    <img alt="License" src="https://img.shields.io/github/license/DespairServices/asset-store-price-tracker">
   </a>
 </div>
 
