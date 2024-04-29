@@ -41,7 +41,7 @@
 
 This project was made to remove the hassle of switching between asset stores (Unity / Unreal) and any other site that tracks pricing history.
 <br>
-With that in mind, this chrome extension fetches and displays pricing history on the Asset Stores themselves.
+With that in mind, this chrome extension fetches and displays pricing history on the asset stores themselves.
 <br>
 [Asset Store Price Tracker](https://github.com/DespairServices/asset-store-price-tracker/) is the continuation of [Unity Asset Price Tracker](https://github.com/DespairServices/unity-asset-price-tracker/).
 
