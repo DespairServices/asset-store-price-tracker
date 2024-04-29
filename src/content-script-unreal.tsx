@@ -43,6 +43,10 @@ function start() {
       y: item.Cost,
     }));
 
+    prices.sort((a, b) => {
+      return new Date(a.x).getTime() - new Date(b.x).getTime();
+    })
+
     const now = new Date();
     const nowParsed = now.toISOString().split("T")[0];
 
