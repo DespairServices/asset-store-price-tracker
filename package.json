@@ -1,6 +1,6 @@
 {
   "name": "asset-store-price-tracker",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "This extension lets you view pricing history for asset pricing on both Unity's and Unreal's webstores.",
   "private": true,
   "scripts": {
