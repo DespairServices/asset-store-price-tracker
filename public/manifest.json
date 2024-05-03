@@ -9,7 +9,8 @@
     "48": "icons/icon_48.png",
     "64": "icons/icon_64.png",
     "96": "icons/icon_96.png",
-    "128": "icons/icon_128.png"
+    "128": "icons/icon_128.png",
+    "256": "icons/icon_256.png"
   },
   "background": {
     "scripts": ["background.js"],
