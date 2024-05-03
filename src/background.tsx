@@ -1,14 +1,17 @@
-import { apiKey } from "./constants";
-
-// Constants
-const sanitizeUrl = require("@braintree/sanitize-url").sanitizeUrl;
+import { apiKey, config, handler, sanitizeUrl } from "./constants";
 
 // Listeners
-chrome.runtime.onUpdateAvailable.addListener(() => {
-  chrome.runtime.reload();
+handler.runtime.onInstalled.addListener(() => {
+  Object.entries(config).forEach(([key, value]) => {
+    chrome.storage.sync.set({ [key]: value });
+  });
 });
 
-chrome.runtime.onMessage.addListener((request, _sender, sendResponse: (response: { ok: boolean, content: string }) => void) => {
+handler.runtime.onUpdateAvailable.addListener(() => {
+  handler.runtime.reload();
+});
+
+handler.runtime.onMessage.addListener((request, _sender, sendResponse: (response: { ok: boolean, content: string }) => void) => {
   if (request.type === "fetch") {
     handleFetchMessage(request.content).then(sendResponse);
   }
