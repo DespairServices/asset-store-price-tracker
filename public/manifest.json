@@ -12,6 +12,7 @@
     "128": "icons/icon_128.png"
   },
   "background": {
+    "scripts": ["background.js"],
     "service_worker": "background.js",
     "type": "module"
   },
@@ -25,8 +26,8 @@
   "content_scripts": [
     {
       "matches": [
-        "https://assetstore.unity.com/packages/*",
-        "https://www.unrealengine.com/marketplace/*/product/*"
+        "*://assetstore.unity.com/packages/*",
+        "*://www.unrealengine.com/marketplace/*/product/*"
       ],
       "run_at": "document_idle",
       "js": [
@@ -36,8 +37,8 @@
     }
   ],
   "host_permissions": [
-    "https://scraper.despair.services/*",
-    "https://assetstore.unity.com/packages/*",
-    "https://www.unrealengine.com/marketplace/*/product/*"
-  ]
+    "*://scraper.despair.services/*",
+    "*://assetstore.unity.com/packages/*",
+    "*://www.unrealengine.com/marketplace/*/product/*"
+  ] 
 }
