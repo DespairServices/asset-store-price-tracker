@@ -1,12 +1,12 @@
 import { Chart, ChartConfiguration, registerables } from "chart.js";
+import { apiHost, handler } from "./constants";
 
 import { PriceChartConfig } from "./price-chart";
-import { apiHost } from "./constants";
 
 // Variables
 let enable: boolean;
 let priceChartConfig: PriceChartConfig;
-
+console.log("HELLO?")
 // Functions
 function display() {
   const chartElement = document.getElementById("price-history-chart");
@@ -27,7 +27,7 @@ function display() {
   displayParent.insertBefore(newChartElement, display.nextSibling);
 }
 
-function start() {
+async function start() {
   // https://stackoverflow.com/questions/8376525/get-value-of-a-string-after-last-slash-in-javascript
   const assetIdUrl = /[^-]*$/.exec(window.location.href);
   if (assetIdUrl === undefined || assetIdUrl === null || assetIdUrl.length === 0) throw Error(`Failed to get assetIdUrl (${assetIdUrl}).`);
@@ -38,35 +38,43 @@ function start() {
   if (Number.isNaN(assetId)) throw Error(`Failed to parse assetIdRaw (${assetIdRaw}).`);
 
   const request = { type: "fetch", content: `${apiHost}/api/unity?id=${assetId}` };
-  chrome.runtime.sendMessage(request, function (response: { ok: boolean, content: string }) {
-    const ok = response.ok;
-    const content = response.content;
-    if (!ok) throw Error(content);
+  let response: { ok: boolean, content: string };
 
-    const parsedContent = JSON.parse(content);
+  if (handler === chrome) {
+    response = await chrome.runtime.sendMessage(request);
+  } else if (handler === browser) {
+    response = await browser.runtime.sendMessage(request);
+  } else {
+    throw Error("handler was not recognized");
+  }
 
-    const prices: { x: string; y: string }[] = parsedContent.map((item: { "Cost": number, "Date": string }) => ({
-      x: item.Date,
-      y: item.Cost,
-    }));
+  const ok = response.ok;
+  const content = response.content;
+  if (!ok) throw Error(content);
 
-    prices.sort((a, b) => {
-      return new Date(a.x).getTime() - new Date(b.x).getTime();
-    })
+  const parsedContent = JSON.parse(content);
 
-    const now = new Date();
-    const nowParsed = now.toISOString().split("T")[0];
+  const prices: { x: string; y: string }[] = parsedContent.map((item: { "Cost": number, "Date": string }) => ({
+    x: item.Date,
+    y: item.Cost,
+  }));
 
-    prices.push({ x: nowParsed, y: prices[prices.length - 1].y });
+  prices.sort((a, b) => {
+    return new Date(a.x).getTime() - new Date(b.x).getTime();
+  })
 
-    priceChartConfig.build(prices);
+  const now = new Date();
+  const nowParsed = now.toISOString().split("T")[0];
 
-    setInterval(display, 500);
-  });
+  prices.push({ x: nowParsed, y: prices[prices.length - 1].y });
+
+  priceChartConfig.build(prices);
+
+  setInterval(display, 500);
 };
 
 async function init() {
-  await chrome.storage.sync.get("enable").then((result) => enable = result["enable"]);
+  await handler.storage.sync.get("enable").then((result) => enable = result["enable"]);
 
   priceChartConfig = new PriceChartConfig();
   await priceChartConfig.init();
@@ -80,6 +88,6 @@ const entryPoint = async () => {
   if (window.location.hostname !== "assetstore.unity.com") return;
   if (!enable) return;
 
-  start();
+  await start();
 };
 entryPoint();
