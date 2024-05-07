@@ -4,9 +4,12 @@
   "description": "This extension lets you view pricing history for asset pricing on both Unity's and Unreal's webstores.",
   "private": true,
   "scripts": {
-    "build": "rimraf out/* --glob && node ./node_modules/webpack/bin/webpack.js --env production --config config/webpack.config.js && cd out/ && bestzip %npm_package_name%_v%npm_package_version%.zip *",
-    "dev": "rimraf out/* --glob && node ./node_modules/webpack/bin/webpack.js --env development --config config/webpack.config.js",
-    "watch": "rimraf out/* --glob && node ./node_modules/webpack/bin/webpack.js --env development --watch --config config/webpack.config.js"
+    "build-chrome": "rimraf out/chrome/* --glob && node ./node_modules/webpack/bin/webpack.js --env production medium=chrome --config config/webpack.config.js && cd out/chrome/ && bestzip %npm_package_name%_v%npm_package_version%-chrome.zip *",
+    "build-firefox": "rimraf out/firefox/* --glob && node ./node_modules/webpack/bin/webpack.js --env production medium=firefox --config config/webpack.config.js && cd out/firefox/ && bestzip %npm_package_name%_v%npm_package_version%-firefox.zip *",
+    "dev-chrome": "rimraf out/* --glob && node ./node_modules/webpack/bin/webpack.js --env development medium=chrome --config config/webpack.config.js",
+    "dev-firefox": "rimraf out/* --glob && node ./node_modules/webpack/bin/webpack.js --env development medium=firefox --config config/webpack.config.js",
+    "watch-chrome": "rimraf out/* --glob && node ./node_modules/webpack/bin/webpack.js --env development medium=chrome --watch --config config/webpack.config.js",
+    "watch-firefox": "rimraf out/* --glob && node ./node_modules/webpack/bin/webpack.js --env development medium=firefox --watch --config config/webpack.config.js"
   },
   "devDependencies": {
     "@types/chart.js": "^2.9.41",

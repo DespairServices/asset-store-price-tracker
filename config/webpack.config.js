@@ -9,12 +9,12 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const path = require("path");
 const TerserPlugin = require("terser-webpack-plugin");
 
-const paths = {
-  src: path.resolve(__dirname, "../src"),
-  out: path.resolve(__dirname, "../out"),
-};
-
 const config = function(env, argv) {
+  const paths = {
+    src: path.resolve(__dirname, "../src"),
+    out: path.resolve(__dirname, `../out${env.production ? "/" + env.medium : ""}`),
+  };
+
   return {
     entry: {
       "popup": paths.src + "/popup.tsx",
@@ -96,11 +96,21 @@ const config = function(env, argv) {
       ],
     },
     plugins: [
+      // https://stackoverflow.com/questions/36205819/webpack-how-can-we-conditionally-use-a-plugin
       new CopyWebpackPlugin({
         patterns: [
           {
             context: "public",
             from: "**/*",
+            filter: async (filepath) => {
+              const filename = filepath.replace(/^.*[\\/]/, '')
+              return !/manifest-(.)+\.json/.test(filename);
+            },
+          },
+          {
+            context: "public",
+            from: `manifest-${env.medium}.json`,
+            to: "manifest.json",
           },
         ],
       }),

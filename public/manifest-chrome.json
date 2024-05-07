@@ -13,7 +13,6 @@
     "256": "icons/icon_256.png"
   },
   "background": {
-    "scripts": ["background.js"],
     "service_worker": "background.js",
     "type": "module"
   },
@@ -41,11 +40,5 @@
     "*://scraper.despair.services/*",
     "*://assetstore.unity.com/packages/*",
     "*://www.unrealengine.com/marketplace/*/product/*"
-  ],
-  "browser_specific_settings": {
-    "gecko": {
-      "id": "despairservices@gmail.com",
-      "strict_min_version": "112.0"
-    }
-  }
+  ]
 }
