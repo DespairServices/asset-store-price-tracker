@@ -48,9 +48,9 @@ With that in mind, this chrome extension fetches and displays pricing history on
 <!-- USAGE -->
 ## Usage
 
-1.  Install the [Chrome extension](https://chromewebstore.google.com/detail/asset-store-price-tracker/phgjeegnkebllghogdbhepllealpkfma) from the Chrome Web Store
-2.  Modify the settings to your liking
-3.  Navigate to the [Unity Asset Store](https://assetstore.unity.com/) or the [Unreal Marketplace](https://www.unrealengine.com/marketplace/)
+1. Install the [Chrome extension](https://chromewebstore.google.com/detail/asset-store-price-tracker/phgjeegnkebllghogdbhepllealpkfma) from the Chrome Web Store
+2. Modify the settings to your liking
+3. Navigate to the [Unity Asset Store](https://assetstore.unity.com/) or the [Unreal Marketplace](https://www.unrealengine.com/marketplace/)
 
 <!-- CONTRIBUTING -->
 ## Contributing
@@ -64,9 +64,9 @@ Any contributions you make are **greatly appreciated**.
 <!-- ACKNOWLEDGMENTS -->
 ## Acknowledgments
 
-*   [Chrome Extension CLI](https://github.com/dutiyesh/chrome-extension-cli) for project bootstrap
-*   [Bootstrap Icons](https://icons.getbootstrap.com/) for icons
-*   [Shields.io](https://shields.io/) for badges
-*   [SImpleIcons](https://simpleicons.org/) for badge icons
-*   [GIMP](https://www.gimp.org/) for logo design and creation
-*   [ImageMagick](https://imagemagick.org/) for batch image resizing
+* [Chrome Extension CLI](https://github.com/dutiyesh/chrome-extension-cli) for project bootstrap
+* [Bootstrap Icons](https://icons.getbootstrap.com/) for icons
+* [Shields.io](https://shields.io/) for badges
+* [SimpleIcons](https://simpleicons.org/) for badge icons
+* [GIMP](https://www.gimp.org/) for logo design and creation
+* [ImageMagick](https://imagemagick.org/) for batch image resizing
