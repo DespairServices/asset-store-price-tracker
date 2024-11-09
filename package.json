@@ -41,6 +41,7 @@
   "dependencies": {
     "@braintree/sanitize-url": "^7.1.0",
     "asset-store-price-tracker": "file:",
+    "bestzip": "^2.2.1",
     "bootstrap": "^5.3.3",
     "bootstrap-icons": "^1.11.3",
     "chart.js": "^4.4.6",
