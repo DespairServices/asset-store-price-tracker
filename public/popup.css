@@ -10,12 +10,12 @@
 
 body {
   width: 350px;
-	border-style: solid;
+  border-style: solid;
 }
 code {
   cursor: pointer;
 }
 
 .form-control-color {
-	width: 100%;
+  width: 100%;
 }
