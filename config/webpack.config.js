@@ -9,7 +9,7 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const path = require("path");
 const TerserPlugin = require("terser-webpack-plugin");
 
-const config = function(env, argv) {
+const config = function (env, argv) {
   const paths = {
     src: path.resolve(__dirname, "../src"),
     out: path.resolve(__dirname, `../out${env.production ? "/" + env.medium : ""}`),
