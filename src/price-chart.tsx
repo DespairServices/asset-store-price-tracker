@@ -1,4 +1,13 @@
-import { ChartConfiguration, ChartData, ChartDataset, ChartOptions, ChartType, LegendItem, ScriptableLineSegmentContext, TooltipItem } from "chart.js";
+import {
+  ChartConfiguration,
+  ChartData,
+  ChartDataset,
+  ChartOptions,
+  ChartType,
+  LegendItem,
+  ScriptableLineSegmentContext,
+  TooltipItem,
+} from "chart.js";
 
 export class PriceChartConfig {
   // Variables
@@ -14,14 +23,24 @@ export class PriceChartConfig {
   maximumColor: string | undefined;
 
   async init() {
-    await chrome.storage.sync.get("priceColor").then((result) => this.priceColor = result["priceColor"]);
-    await chrome.storage.sync.get("gapColor").then((result) => this.gapColor = result["gapColor"]);
-    await chrome.storage.sync.get("minimumColor").then((result) => this.minimumColor = result["minimumColor"]);
-    await chrome.storage.sync.get("intermediateColor").then((result) => this.intermediateColor = result["intermediateColor"]);
-    await chrome.storage.sync.get("maximumColor").then((result) => this.maximumColor = result["maximumColor"]);
-  };
+    await chrome.storage.sync
+      .get("priceColor")
+      .then((result) => (this.priceColor = result["priceColor"]));
+    await chrome.storage.sync
+      .get("gapColor")
+      .then((result) => (this.gapColor = result["gapColor"]));
+    await chrome.storage.sync
+      .get("minimumColor")
+      .then((result) => (this.minimumColor = result["minimumColor"]));
+    await chrome.storage.sync
+      .get("intermediateColor")
+      .then((result) => (this.intermediateColor = result["intermediateColor"]));
+    await chrome.storage.sync
+      .get("maximumColor")
+      .then((result) => (this.maximumColor = result["maximumColor"]));
+  }
 
-  build(prices: { x: string, y: string }[]) {
+  build(prices: { x: string; y: string }[]) {
     const chartLabels: string[] = [];
     for (const element of prices) {
       chartLabels.push(element.x);
@@ -31,7 +50,7 @@ export class PriceChartConfig {
     this.dataMin = Math.min(...dataFirst);
     this.dataMax = Math.max(...dataFirst);
 
-    let data: { x: string, y: string }[] = [];
+    let data: { x: string; y: string }[] = [];
     for (let i = 0; i < prices.length; i++) {
       data.push(prices[i]);
       if (i < prices.length - 1) {
@@ -39,9 +58,9 @@ export class PriceChartConfig {
         if (JSON.stringify(prices[i]) !== JSON.stringify(stepData)) {
           data.push(stepData);
         }
-      } 
+      }
     }
-    const dataPlain: { x: any, y: any }[] = data.map(value => value);
+    const dataPlain: { x: any; y: any }[] = data.map((value) => value);
 
     const chartDatasets: ChartDataset[] = [
       {
@@ -50,8 +69,10 @@ export class PriceChartConfig {
         borderColor: this.priceColor,
         stepped: true,
         segment: {
-          borderColor: (ctx: ScriptableLineSegmentContext) => this.segmentColor(ctx),
-          borderDash: (ctx: ScriptableLineSegmentContext) => this.segmentDash(ctx),
+          borderColor: (ctx: ScriptableLineSegmentContext) =>
+            this.segmentColor(ctx),
+          borderDash: (ctx: ScriptableLineSegmentContext) =>
+            this.segmentDash(ctx),
         },
       },
       {
@@ -102,12 +123,14 @@ export class PriceChartConfig {
       },
       legend: {
         labels: {
-          filter: (item: LegendItem, _data: ChartData) => !item.text.includes("Price") && !item.text.includes("Gap"),
+          filter: (item: LegendItem, _data: ChartData) =>
+            !item.text.includes("Price") && !item.text.includes("Gap"),
         },
       },
       tooltip: {
         callbacks: {
-          label: (context: TooltipItem<typeof chartType>) => context.dataset.label + " $ " + context.formattedValue,
+          label: (context: TooltipItem<typeof chartType>) =>
+            context.dataset.label + " $ " + context.formattedValue,
         },
       },
       radius: 0,
@@ -145,7 +168,7 @@ export class PriceChartConfig {
     } else {
       return this.gapColor;
     }
-  };
+  }
 
   segmentDash(ctx: ScriptableLineSegmentContext): number[] | undefined {
     if (ctx.p0.parsed.y === ctx.p1.parsed.y) {
@@ -153,6 +176,5 @@ export class PriceChartConfig {
     } else {
       return [6, 6];
     }
-  };
+  }
 }
-
