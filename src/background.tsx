@@ -1,26 +1,75 @@
-import { apiKey, config, handler, sanitizeUrl } from "./constants";
+import validator from "validator";
+import { apiKey, config } from "./constants";
+
+import browser = require("webextension-polyfill");
+
+// Types
+type Message = {
+  type: string;
+  content: string;
+};
+type Response = {
+  ok: boolean;
+  content: string;
+};
 
 // Listeners
-handler.runtime.onInstalled.addListener(() => {
+browser.runtime.onInstalled.addListener(() => {
   Object.entries(config).forEach(([key, value]) => {
-    chrome.storage.sync.set({ [key]: value });
+    browser.storage.sync.set({ [key]: value });
   });
 });
 
-handler.runtime.onUpdateAvailable.addListener(() => {
-  handler.runtime.reload();
+browser.runtime.onUpdateAvailable.addListener(() => {
+  browser.runtime.reload();
 });
 
-handler.runtime.onMessage.addListener((request, _sender, sendResponse: (response: { ok: boolean, content: string }) => void) => {
-  if (request.type === "fetch") {
-    handleFetchMessage(request.content).then(sendResponse);
-  }
-  return true;
-});
+browser.runtime.onMessage.addListener(
+  async (msg, _sender): Promise<Response> => {
+    if (!isMessage(msg)) {
+      console.error("Invalid message", msg);
+      return { ok: false, content: "Invalid message" };
+    }
+
+    console.log("Received message", msg);
+
+    switch (msg.type) {
+      case "fetch":
+        return await handleFetchMessage(msg.content);
+      default:
+        console.error("Invalid message type", msg.type);
+        return { ok: false, content: "Invalid message type" };
+    }
+  },
+);
 
 // Functions
-const handleFetchMessage = async (content: any): Promise<{ ok: boolean, content: string }> => {
-  const sanitizedContent = sanitizeUrl(content);
-  const response = await fetch(sanitizedContent, { headers: new Headers({ 'Authorization': `Bearer ${apiKey}` }) });
-  return response.status === 200 ? { ok: true, content: await response.text() } : { ok: false, content: "Error 2000" };
-};
+function isMessage(value: unknown): value is Message {
+  return (
+    value !== undefined &&
+    value !== null &&
+    typeof value === "object" &&
+    "type" in value &&
+    "content" in value &&
+    typeof (value as Message).type === "string" &&
+    typeof (value as Message).content === "string"
+  );
+}
+
+async function handleFetchMessage(content: string): Promise<Response> {
+  if (!validator.isURL(content)) {
+    console.error("Invalid URL", content);
+    return { ok: false, content: "Invalid URL" };
+  }
+
+  const response = await fetch(content, {
+    headers: new Headers({ Authorization: `Bearer ${apiKey}` }),
+  });
+
+  return response.status === 200
+    ? { ok: true, content: await response.text() }
+    : { ok: false, content: response.statusText };
+}
+
+// Entry Point
+console.log("Background script loaded.");

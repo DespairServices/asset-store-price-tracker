@@ -23,19 +23,19 @@ export class PriceChartConfig {
   maximumColor: string | undefined;
 
   async init() {
-    await chrome.storage.sync
+    await browser.storage.sync
       .get("priceColor")
       .then((result) => (this.priceColor = result["priceColor"]));
-    await chrome.storage.sync
+    await browser.storage.sync
       .get("gapColor")
       .then((result) => (this.gapColor = result["gapColor"]));
-    await chrome.storage.sync
+    await browser.storage.sync
       .get("minimumColor")
       .then((result) => (this.minimumColor = result["minimumColor"]));
-    await chrome.storage.sync
+    await browser.storage.sync
       .get("intermediateColor")
       .then((result) => (this.intermediateColor = result["intermediateColor"]));
-    await chrome.storage.sync
+    await browser.storage.sync
       .get("maximumColor")
       .then((result) => (this.maximumColor = result["maximumColor"]));
   }

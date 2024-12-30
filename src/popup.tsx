@@ -4,7 +4,6 @@ import {
   colorRed,
   colorWhite,
   colorYellow,
-  handler,
 } from "./constants";
 
 // Event Listeners
@@ -41,7 +40,7 @@ $("#reset").on("click", function () {
   setStorageValue("maximumColor", colorRed, updateValue);
 });
 $("#website").on("click", function () {
-  handler.tabs.create({
+  browser.tabs.create({
     url: "https://www.despair.services",
   });
 });
@@ -78,7 +77,7 @@ function validateMode(key: any, value: any, result: any): boolean {
 }
 
 function getStorageValue(key: any, callback: (result: any) => void) {
-  handler.storage.sync.get([key]).then((result) => callback(result));
+  browser.storage.sync.get([key]).then((result) => callback(result));
 }
 
 function setStorageValue(
@@ -86,7 +85,7 @@ function setStorageValue(
   value: any,
   ...callbacks: ((key: any, value: any) => void)[]
 ) {
-  handler.storage.sync.set({ [key]: value });
+  browser.storage.sync.set({ [key]: value });
   callbacks.forEach(function (callback) {
     callback(key, value);
   });
@@ -114,7 +113,7 @@ function init() {
     "intermediateColor",
     colorYellow,
     validateColor,
-    updateValue
+    updateValue,
   );
   initStorageValue("maximumColor", colorRed, validateColor, updateValue);
 }

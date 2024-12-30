@@ -1,9 +1,4 @@
-export const sanitizeUrl = require("@braintree/sanitize-url").sanitizeUrl;
-
-export const usingFirefox = typeof browser !== "undefined";
-export const handler = usingFirefox ? browser : chrome;
-
-export const apiHost = "http://127.0.0.1:3003"; //"https://scraper.despair.services";
+export const apiHost = "https://asset-store-price-tracker.despair.services";
 export const apiKey = "4a2260bc-98db-42b2-ab32-2e3df5d4a2c7";
 
 export const colorWhite = "#FFFFFF";
