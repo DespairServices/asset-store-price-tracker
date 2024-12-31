@@ -12,11 +12,6 @@
     "128": "icons/icon_128.png",
     "256": "icons/icon_256.png"
   },
-  "browser_specific_settings": {
-    "gecko": {
-      "id": "{988dd4f5-e8d5-49bf-a766-ff75b0e19f12}"
-    }
-  },
   "background": {
     "type": "module"
   },

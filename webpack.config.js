@@ -127,6 +127,9 @@ const config = function (env, argv) {
                 manifest.background.service_worker = "background.js";
               } else if (env.background === "scripts") {
                 manifest.background.scripts = ["background.js"];
+                manifest.browser_specific_settings = {};
+                manifest.browser_specific_settings.gecko = {};
+                manifest.browser_specific_settings.gecko.id = "despairservices@gmail.com";
               } else {
                 throw new Error("Invalid background. Please specify 'scripts' or 'service_worker'.");
               }
