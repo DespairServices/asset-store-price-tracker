@@ -10,10 +10,21 @@ const path = require("path");
 const TerserPlugin = require("terser-webpack-plugin");
 const glob = require("glob");
 
+
 const config = function (env, argv) {
+  console.log(`Building for ${env.mode} mode with ${env.background} background.`);
+
+  if (env.mode !== "production" && env.mode !== "development") {
+    throw new Error("Invalid mode. Please specify 'production' or 'development'.");
+  }
+
+  if (env.background !== "scripts" && env.background !== "service_worker") {
+    throw new Error("Invalid background. Please specify 'scripts' or 'service_worker'.");
+  }
+
   const paths = {
-    src: path.resolve(__dirname, "./src"),
-    out: path.resolve(__dirname, "./out"),
+    src: path.resolve(__dirname, "src"),
+    out: path.resolve(__dirname, "out", env.background),
   };
 
   const entry = glob.sync(paths.src + "/**/*.ts").reduce((acc, filePath) => {
@@ -24,7 +35,7 @@ const config = function (env, argv) {
 
   return {
     entry: entry,
-    mode: env.production ? "production" : "development",
+    mode: env.mode,
     output: {
       path: paths.out,
       filename: "[name].js",
@@ -48,16 +59,16 @@ const config = function (env, argv) {
           type: "asset",
         },
         {
-          test: /\.ts(x)?$/,
+          test: /\.ts$/,
           loader: "ts-loader",
         },
       ],
     },
     resolve: {
-      extensions: [".tsx", ".ts", ".jsx", ".js"],
+      extensions: [".js", ".ts"],
     },
     optimization: {
-      minimize: true,
+      minimize: env.mode === "production",
       minimizer: [
         new CssMinimizerPlugin({
           exclude: /\.min/,
@@ -102,19 +113,37 @@ const config = function (env, argv) {
         patterns: [
           {
             context: "public",
-            from: "**/*",
-            filter: async (filepath) => {
-              const filename = filepath.replace(/^.*[\\/]/, '')
-              return !/manifest-(.)+\.json/.test(filename);
+            from: "manifest.json",
+            to: paths.out,
+            transform(content) {
+              const manifest = JSON.parse(content.toString());
+
+              if (!manifest.background) {
+                manifest.background = {};
+                background.type = "module";
+              }
+
+              if (env.background === "service_worker") {
+                manifest.background.service_worker = "background.js";
+              } else if (env.background === "scripts") {
+                manifest.background.scripts = ["background.js"];
+              } else {
+                throw new Error("Invalid background. Please specify 'scripts' or 'service_worker'.");
+              }
+
+              return JSON.stringify(manifest, null, 2);
             },
           },
           {
-            context: "public",
-            from: `manifest.json`,
-            to: "manifest.json",
+            from: "public",
+            to: paths.out,
+            globOptions: {
+              ignore: ["**/manifest.json"], // Ensure manifest.json is not copied again
+            },
           },
         ],
       }),
+
     ],
     devtool: env.production ? false : "source-map",
     stats: {
