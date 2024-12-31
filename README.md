@@ -32,8 +32,10 @@
 
 <div align="center">
   <h3>Get here:</h3>
-  <a href="https://chromewebstore.google.com/detail/asset-store-price-tracker/phgjeegnkebllghogdbhepllealpkfma"><img alt="Chrome Web Store" src="https://img.shields.io/badge/Chrome%20Web%20Store-gray?logo=google%20chrome"></a>
-  <a href="https://addons.mozilla.org/en-US/firefox/addon/asset-store-price-tracker/"><img alt="Firefox Browser ADD-ONS" src="https://img.shields.io/badge/Firefox%20Browser%20Addons-gray?logo=firefox%20browser"></a>
+  <a href="https://chromewebstore.google.com/detail/asset-store-price-tracker/phgjeegnkebllghogdbhepllealpkfma"><img alt="Chrome Browser" src="https://img.shields.io/badge/Chrome%20Browser-gray?logo=google%20chrome"></a>
+  <a href="https://addons.mozilla.org/en-US/firefox/addon/asset-store-price-tracker"><img alt="Firefox Browser" src="https://img.shields.io/badge/Firefox%20Browser-gray?logo=firefox%20browser"></a>
+  <a href="https://chromewebstore.google.com/detail/asset-store-price-tracker/phgjeegnkebllghogdbhepllealpkfma"><img alt="Brave Browser" src="https://img.shields.io/badge/Brave%20Browser-gray?logo=brave"></a>
+  <a href="https://chromewebstore.google.com/detail/asset-store-price-tracker/phgjeegnkebllghogdbhepllealpkfma"><img alt="Vivaldi Browser" src="https://img.shields.io/badge/Vivaldi%20Browser-gray?logo=vivaldi"></a>
 </div>
 
 <!-- PROJECT SHOWCASE -->
