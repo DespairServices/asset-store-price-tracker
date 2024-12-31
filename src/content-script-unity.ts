@@ -1,8 +1,7 @@
 import { Chart, ChartConfiguration, registerables } from "chart.js";
+import { Response } from "./background";
 import { apiHost } from "./constants";
 import { PriceChartConfig } from "./price-chart";
-
-import browser = require("webextension-polyfill");
 
 // Variables
 let enable: boolean;
@@ -50,10 +49,10 @@ async function start() {
     throw Error(`Failed to parse assetIdRaw (${assetIdRaw}).`);
 
   const request = { type: "fetch", content: `${apiHost}/unity?id=${assetId}` };
-  let response: { ok: boolean; content: string };
+  let response: Response;
 
   try {
-    response = await browser.runtime.sendMessage(request);
+    response = await chrome.runtime.sendMessage(request);
   } catch (error) {
     console.error("Error:", error);
     return;
@@ -87,7 +86,7 @@ async function start() {
 }
 
 async function init() {
-  await browser.storage.sync
+  await chrome.storage.sync
     .get("enable")
     .then((result) => (enable = Boolean(result["enable"])));
 

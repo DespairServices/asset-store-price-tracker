@@ -1,44 +1,58 @@
 import validator from "validator";
 import { apiKey, config } from "./constants";
 
-import browser = require("webextension-polyfill");
-
 // Types
-type Message = {
+export type Message = {
   type: string;
   content: string;
 };
-type Response = {
+export type Response = {
   ok: boolean;
   content: string;
 };
 
 // Listeners
-browser.runtime.onInstalled.addListener(() => {
+chrome.runtime.onInstalled.addListener(() => {
   Object.entries(config).forEach(([key, value]) => {
-    browser.storage.sync.set({ [key]: value });
+    chrome.storage.sync.set({ [key]: value });
   });
 });
 
-browser.runtime.onUpdateAvailable.addListener(() => {
-  browser.runtime.reload();
+chrome.runtime.onUpdateAvailable.addListener(() => {
+  chrome.runtime.reload();
 });
 
-browser.runtime.onMessage.addListener(
-  async (msg, _sender): Promise<Response> => {
+chrome.runtime.onMessage.addListener(
+  (msg, _sender, sendResponse: (response: Response) => void) => {
+    console.log("Received message", msg);
+
+    let response: Response = { ok: false, content: "" };
+
     if (!isMessage(msg)) {
       console.error("Invalid message", msg);
-      return { ok: false, content: "Invalid message" };
-    }
 
-    console.log("Received message", msg);
+      response.content = "Invalid message";
+      console.log("Sent response", response);
+
+      sendResponse(response);
+      return true;
+    }
 
     switch (msg.type) {
       case "fetch":
-        return await handleFetchMessage(msg.content);
+        handleFetchMessage(msg.content).then((res) => {
+          console.log("Sent response", res);
+          sendResponse(res);
+        });
+        return true;
       default:
         console.error("Invalid message type", msg.type);
-        return { ok: false, content: "Invalid message type" };
+
+        response.content = "Invalid message type";
+        console.log("Sent response", response);
+
+        sendResponse(response);
+        return true;
     }
   },
 );

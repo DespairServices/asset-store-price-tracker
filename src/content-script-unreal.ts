@@ -1,6 +1,7 @@
 import { Chart, ChartConfiguration, registerables } from "chart.js";
 import { apiHost } from "./constants";
 
+import { Response } from "./background";
 import { PriceChartConfig } from "./price-chart";
 
 // Variables
@@ -45,10 +46,10 @@ async function start() {
     type: "fetch",
     content: `${apiHost}/unreal?id=${assetIdRaw}`,
   };
-  let response: { ok: boolean; content: string };
+  let response: Response;
 
   try {
-    response = await browser.runtime.sendMessage(request);
+    response = await chrome.runtime.sendMessage(request);
   } catch (error) {
     console.error("Error:", error);
     return;
@@ -82,7 +83,7 @@ async function start() {
 }
 
 async function init() {
-  await browser.storage.sync
+  await chrome.storage.sync
     .get("enable")
     .then((result) => (enable = Boolean(result["enable"])));
 

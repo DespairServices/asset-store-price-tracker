@@ -40,7 +40,7 @@ $("#reset").on("click", function () {
   setStorageValue("maximumColor", colorRed, updateValue);
 });
 $("#website").on("click", function () {
-  browser.tabs.create({
+  chrome.tabs.create({
     url: "https://www.despair.services",
   });
 });
@@ -77,7 +77,7 @@ function validateMode(key: any, value: any, result: any): boolean {
 }
 
 function getStorageValue(key: any, callback: (result: any) => void) {
-  browser.storage.sync.get([key]).then((result) => callback(result));
+  chrome.storage.sync.get([key]).then((result) => callback(result));
 }
 
 function setStorageValue(
@@ -85,7 +85,7 @@ function setStorageValue(
   value: any,
   ...callbacks: ((key: any, value: any) => void)[]
 ) {
-  browser.storage.sync.set({ [key]: value });
+  chrome.storage.sync.set({ [key]: value });
   callbacks.forEach(function (callback) {
     callback(key, value);
   });
