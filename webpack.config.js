@@ -8,21 +8,22 @@ const JsonMinimizerPlugin = require("json-minimizer-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const path = require("path");
 const TerserPlugin = require("terser-webpack-plugin");
+const glob = require("glob");
 
 const config = function (env, argv) {
   const paths = {
-    src: path.resolve(__dirname, "../src"),
-    out: path.resolve(__dirname, `../out${env.production ? "/" + env.medium : ""}`),
+    src: path.resolve(__dirname, "./src"),
+    out: path.resolve(__dirname, "./out"),
   };
 
+  const entry = glob.sync(paths.src + "/**/*.ts").reduce((acc, filePath) => {
+    const entryName = path.relative(paths.src, filePath).replace(/\.ts$/, "");
+    acc[entryName] = path.resolve(__dirname, filePath);
+    return acc;
+  }, {});
+
   return {
-    entry: {
-      "popup": paths.src + "/popup.tsx",
-      "content-script-unity": paths.src + "/content-script-unity.tsx",
-      "content-script-unreal": paths.src + "/content-script-unreal.tsx",
-      "background": paths.src + "/background.tsx",
-      "constants": paths.src + "/constants.tsx",
-    },
+    entry: entry,
     mode: env.production ? "production" : "development",
     output: {
       path: paths.out,
@@ -53,7 +54,7 @@ const config = function (env, argv) {
       ],
     },
     resolve: {
-      extensions: [".tsx", ".ts", ".js"],
+      extensions: [".tsx", ".ts", ".jsx", ".js"],
     },
     optimization: {
       minimize: true,
@@ -109,7 +110,7 @@ const config = function (env, argv) {
           },
           {
             context: "public",
-            from: `manifest-${env.medium}.json`,
+            from: `manifest.json`,
             to: "manifest.json",
           },
         ],

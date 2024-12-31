@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Asset Store Price Tracker",
-  "version": "2.1.1",
+  "version": "2.2.1",
   "description": "This extension lets you view pricing history for asset pricing on both Unity's and Unreal's webstores.",
   "icons": {
     "16": "icons/icon_16.png",
@@ -12,8 +12,15 @@
     "128": "icons/icon_128.png",
     "256": "icons/icon_256.png"
   },
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "{988dd4f5-e8d5-49bf-a766-ff75b0e19f12}"
+    }
+  },
   "background": {
-    "service_worker": "background.js",
+    "scripts": [
+      "background.js"
+    ],
     "type": "module"
   },
   "action": {
@@ -26,18 +33,25 @@
   "content_scripts": [
     {
       "matches": [
-        "*://assetstore.unity.com/packages/*",
+        "*://assetstore.unity.com/packages/*"
+      ],
+      "run_at": "document_idle",
+      "js": [
+        "content-script-unity.js"
+      ]
+    },
+    {
+      "matches": [
         "*://www.unrealengine.com/marketplace/*/product/*"
       ],
       "run_at": "document_idle",
       "js": [
-        "content-script-unity.js",
         "content-script-unreal.js"
       ]
     }
   ],
   "host_permissions": [
-    "*://scraper.despair.services/*",
+    "*://asset-store-price-tracker.despair.services/*",
     "*://assetstore.unity.com/packages/*",
     "*://www.unrealengine.com/marketplace/*/product/*"
   ]
