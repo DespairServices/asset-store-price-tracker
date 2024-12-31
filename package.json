@@ -4,10 +4,15 @@
   "description": "This extension lets you view pricing history for asset pricing on both Unity's and Unreal's webstores.",
   "private": true,
   "scripts": {
-    "build": "npm run clean && webpack --env production --config webpack.config.js && cd out/ && bestzip %npm_package_name%_v%npm_package_version%.zip *",
+    "build": "npm run clean && npm run build-scripts && npm run build-service_worker",
+    "build-scripts": "npm run clean-scripts && webpack --env=mode=production --env=background=scripts --config webpack.config.js && cd out/scripts/ && bestzip %npm_package_name%_v%npm_package_version%_scripts.zip *",
+    "build-service_worker": "npm run clean-service_worker && webpack --env=mode=production --env=background=service_worker --config webpack.config.js && cd out/service_worker/ && bestzip %npm_package_name%_v%npm_package_version%_service_worker.zip *",
     "clean": "rimraf out/* --glob",
-    "dev": "npm run clean && webpack --env development --config webpack.config.js",
-    "watch": "npm run clean && webpack --env development --watch --config webpack.config.js"
+    "clean-scripts": "rimraf out/scripts/* --glob",
+    "clean-service_worker": "rimraf out/service_worker/* --glob",
+    "dev": "npm run clean && npm run dev-scripts && npm run dev-service_worker",
+    "dev-scripts": "npm run clean-scripts && webpack --env=mode=development --env=background=scripts --config webpack.config.js",
+    "dev-service_worker": "npm run clean-service_worker && webpack --env=mode=development --env=background=service_worker --config webpack.config.js"
   },
   "devDependencies": {
     "@types/chart.js": "^2.9.41",
@@ -15,7 +20,6 @@
     "@types/firefox-webext-browser": "^120.0.4",
     "@types/jquery": "^3.5.32",
     "@types/validator": "^13.12.2",
-    "@types/webextension-polyfill": "^0.12.1",
     "autoprefixer": "^10.4.20",
     "copy-webpack-plugin": "^12.0.2",
     "css-loader": "^7.1.2",
